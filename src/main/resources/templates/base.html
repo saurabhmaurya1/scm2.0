@@ -1,7 +1,42 @@
-<div th:fragment="parent(y)">
-<h1>This is parent fragments</h1>
-<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis, libero.</p>
-<div th:replace="${y}">
+<!DOCTYPE html>
+<html
+  class="light"
+  th:fragment="parent(content,title,script)"
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:replace="${title}">Base page</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <!-- font awsome cdn -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" data-th-href="@{'/css/output.css'}" />
+  </head>
+  <body class="dark:bg-gray-900 bg-gray-100 dark:text-white">
+    <!-- common header -->
+    <div th:replace="~{navbar :: navbar}"></div>
 
-</div>
-</div>
+    <!-- main content -->
+    <section th:replace="${content}"></section>
+
+    <!-- commom=n footer -->
+
+    <!-- flowbite content -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script data-th-src="@{'/js/script.js'}"></script>
+
+    <th:block data-th-replace="${script}"></th:block>
+  </body>
+</html>
