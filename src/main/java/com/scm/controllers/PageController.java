@@ -17,6 +17,9 @@ import com.scm.helpers.MessageType;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
 
 
 @Controller
@@ -26,6 +29,11 @@ public class PageController {
     private final UserService userService;
 
 
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/home";
+    }
+    
 
     @RequestMapping("/home")
     public String home(Model model){
@@ -67,7 +75,7 @@ public class PageController {
     
 
     //login route 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login() {
         return "login";
     }
@@ -122,6 +130,7 @@ public class PageController {
         user.setPassword(userForm.getPassword());
         user.setPhoneNumber(userForm.getPhoneNumber());
         user.setAbout(userForm.getAbout());
+        user.setEnabled(false);
         user.setProfilePic("https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg");
 
         User savedUser = userService.saveUser(user);
@@ -130,7 +139,7 @@ public class PageController {
         //message registration successful
         Message message = Message.builder()
         .content("Registration Successful")
-        .type(MessageType.red).build();
+        .type(MessageType.green).build();
 
         session.setAttribute("message", message);
         //redirect to login page

@@ -22,10 +22,23 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" data-th-href="@{'/css/output.css'}" />
+    <link rel="stylesheet" data-th-href="@{'/css/style.css'}">
   </head>
   <body class="dark:bg-gray-900 bg-gray-100 dark:text-white">
     <!-- common header -->
-    <div th:replace="~{navbar :: navbar}"></div>
+
+    <!-- user is logged in -navbar -->
+    <div data-th-if="${loggedInUser}">
+      <div th:replace="~{user/user_navbar :: user-navbar}"></div>
+    </div>
+
+    
+    
+
+    <!-- user is not logged in navbar -->
+    <div data-th-unless="${loggedInUser}">
+      <div th:replace="~{navbar :: navbar}"></div>
+    </div>
 
     <!-- main content -->
     <section th:replace="${content}"></section>
@@ -36,6 +49,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script data-th-src="@{'/js/script.js'}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <th:block data-th-replace="${script}"></th:block>
   </body>

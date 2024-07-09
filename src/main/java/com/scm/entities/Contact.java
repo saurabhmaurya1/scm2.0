@@ -1,17 +1,26 @@
 package com.scm.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    
+    private String id;
     private String name;
     private String email;
     private String phoneNumber;
@@ -24,7 +33,10 @@ public class Contact {
     private String websiteLink;
     private String linkedInLink;
 
+    private String cloudinaryImagePublicId;
+
     @ManyToOne
+    @JsonIgnore      //we used this because when we return contact as entity so is going in loop ,and after using this we dont get user but if we want user also then we have to use dto
     private User user;
 
 

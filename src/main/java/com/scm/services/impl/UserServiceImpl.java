@@ -4,22 +4,29 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.scm.helpers.AppConstants;
 import com.scm.helpers.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.scm.entities.User;
 import com.scm.repositories.UserRepo;
 import com.scm.services.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
 
-    @Autowired
-    private UserRepo userRepo;
+    
+    private final UserRepo userRepo;
+
+    private final PasswordEncoder passwordEncoder;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -30,6 +37,10 @@ public class UserServiceImpl implements UserService {
         user.setUserId(userId);
 
         //password encode
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        //set the user Role
+        user.setRoleList(List.of(AppConstants.ROLE_USER));
 
         return userRepo.save(user);
     }
@@ -83,6 +94,12 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepo.findAll();
 
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepo.findByEmail(email).orElse(null);
+        
     }
 
 }
